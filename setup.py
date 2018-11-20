@@ -15,7 +15,7 @@ with open('HISTORY.md') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 with open('requirements.txt') as requirements_file:
-    requirements = requirements_file.read()
+    requirements = requirements_file.readlines()
 
 test_requirements = [
     'pytest', 'coverage'
