@@ -85,7 +85,7 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
               help="Location of input folders")
 @click.option('--region', default='west')
 def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
-        region=REGION):
+          region=REGION):
     """
 
     Parameters

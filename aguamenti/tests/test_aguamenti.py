@@ -8,8 +8,6 @@ test_aguamenti
 Tests for `aguamenti` module.
 """
 
-import pytest
-
 
 class TestAguamenti(object):
 
