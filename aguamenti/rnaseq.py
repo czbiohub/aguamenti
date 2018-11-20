@@ -13,7 +13,7 @@ os.environ['LC_LANG'] = unicode_usa
 os.environ["LC_ALL"] = unicode_usa
 
 S3_REFERENCE = {"east": "czi-hca", "west": "czbiohub-reference"}
-SAMPLE_REGEX = '(?P<id>[^/]+)_(?P<read_number>R\d)_\d+.fastq.gz$'
+SAMPLE_REGEX = r'(?P<id>[^/]+)_(?P<read_number>R\d)_\d+.fastq.gz$'
 S3_INPUT_PATH = "s3://czb-seqbot/fastqs"
 S3_REFERENCE = "s3://czbiohub-reference"
 REGION = 'west'
@@ -59,12 +59,13 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
         if filename.endswith("fastq.gz")
     ]
 
-    s3_input_path = maybe_add_slash(s3_input_path)
+    s3_input_bucket = maybe_add_slash(s3_input_bucket)
 
     fastqs = pd.DataFrame(data, columns=['filename', 'size'])
-    fastqs['full_path'] = s3_input_path + '/' + fastqs['filename']
+    fastqs['full_path'] = s3_input_bucket + fastqs['filename']
     fastqs['basename'] = fastqs.filename.map(os.path.basename)
     read_data = fastqs.basename.str.extractall(SAMPLE_REGEX)
+    read_data.index = read_data.index.droplevel(-1)
     fastqs_with_data = pd.concat([fastqs, read_data], axis=1)
 
     # Transform so R1 and R2 are column names, and the values are the paths
