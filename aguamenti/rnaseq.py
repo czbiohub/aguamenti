@@ -75,15 +75,15 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
     return samples
 
 
-
-@click.command()
+@click.command(short_help="Create a csv of samples to input to reflow runbatch"
+                          " for RNA-seq alignment and gene counting")
 @click.argument("experiment_id")
 @click.argument("taxon")
 @click.argument('s3_output_path')
 @click.option("--s3-input-path", default=S3_INPUT_PATH,
               help="Location of input folders")
 @click.option('--region', default='west')
-def cli(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
+def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
         region=REGION):
     """
 
@@ -110,4 +110,4 @@ def cli(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
 
 
 if __name__ == "__main__":
-    cli()
+    align()
