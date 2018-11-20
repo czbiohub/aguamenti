@@ -8,10 +8,10 @@ except ImportError:
     from distutils.core import setup
 
 
-with open('README.rst') as readme_file:
+with open('README.md') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
+with open('HISTORY.md') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 with open('requirements.txt') as requirements_file:
@@ -24,11 +24,14 @@ test_requirements = [
 setup(
     name='aguamenti',
     version='0.1.0',
-    description="Python utility scripts for working with reflow workflows. "Aguamenti" is a spell in Harry Potter that creates water out of nothing.",
+    description="Python utility scripts for working with reflow workflows. "
+                "\"Aguamenti\" is a spell in Harry Potter that creates water "
+                "out of nothing.",
     long_description=readme + '\n\n' + history,
+    long_description_content_type="text/markdown",
     author="Olga Botvinnik",
     author_email='olga.botvinnik@gmail.com',
-    url='https://github.com/olgabot/aguamenti',
+    url='https://github.com/czbiohub/aguamenti',
     packages=[
         'aguamenti',
     ],
@@ -44,9 +47,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
