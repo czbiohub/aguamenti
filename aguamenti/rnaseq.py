@@ -62,7 +62,7 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
     s3_input_bucket = maybe_add_slash(s3_input_bucket)
 
     fastqs = pd.DataFrame(data, columns=['filename', 'size'])
-    fastqs['full_path'] = s3_input_bucket + fastqs['filename']
+    fastqs['full_path'] = 's3://' + s3_input_bucket + fastqs['filename']
     fastqs['basename'] = fastqs.filename.map(os.path.basename)
     read_data = fastqs.basename.str.extractall(SAMPLE_REGEX)
     read_data.index = read_data.index.droplevel(-1)
