@@ -1,8 +1,7 @@
-import os
+from .os_utils import os, maybe_add_slash
 import pandas as pd
 from utilities import s3_util as s3u
 
-from aguamenti.utils import maybe_add_slash
 
 S3_REFERENCE = {"east": "czi-hca", "west": "czbiohub-reference"}
 SAMPLE_REGEX = r'(?P<id>[^/]+)_(?P<read_number>R\d)_\d+.fastq.gz$'

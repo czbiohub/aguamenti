@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
-# Set input language USA unicode encoding setting
-# Necessary because click assumes ascii input unless otherwise specified
-# https://click.palletsprojects.com/en/7.x/python3/
-import os
-unicode_usa = 'en_US.utf-8'
-os.environ['LC_LANG'] = unicode_usa
-os.environ["LC_ALL"] = unicode_usa
+# Import modified 'os' module with LC_LANG set so click doesn't complain
+from .os_utils import os
 
 import click
 
-from aguamenti.rnaseq import align
+from .rnaseq import align
 
 settings = dict(help_option_names=['-h', '--help'])
 

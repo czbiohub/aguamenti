@@ -1,10 +1,11 @@
-import os
+# Import modified 'os' module with LC_LANG set so click doesn't complain
+from .os_utils import os, REFLOW_WORKFLOWS, sanitize_path
+
 
 import click
 
 from .reflow_utils import write_config, write_samples
 from .s3_utils import S3_INPUT_PATH, get_fastqs_as_r1_r2_columns
-from .utils import HOME, REFLOW_WORKFLOWS, sanitize_path
 
 
 REGION = 'west'
@@ -21,15 +22,16 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
 @click.argument('s3_output_path')
 @click.option("--s3-input-path", default=S3_INPUT_PATH,
               help="Location of input folders")
-@click.option('--output', default=HOME,
-              help='Where to output the samples.csv and config.json files to')
+@click.option('--output', default='.',
+              help='Where to output the samples.csv and config.json files to.'
+                   ' Default is the current directory.')
 @click.option('--reflow-workflows-path', default=REFLOW_WORKFLOWS,
               help='Location of reflow-workflows directory containing .rf '
                    'files')
 @click.option('--workflow', default='star_htseq.rf',
               help="Which workflow to run on these files")
 def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
-          output=HOME, reflow_workflows_path=REFLOW_WORKFLOWS,
+          output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
           workflow='star_htseq.rf'):
     """Create a samples.csv file
 
@@ -69,6 +71,3 @@ def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
     csv_filename = write_samples(output, samples)
     write_config(csv_filename, output, reflow_workflows_path, workflow)
 
-
-if __name__ == "__main__":
-    align()
