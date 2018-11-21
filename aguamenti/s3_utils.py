@@ -3,7 +3,8 @@ import pandas as pd
 from utilities import s3_util as s3u
 
 
-S3_REFERENCE = {"east": "czi-hca", "west": "czbiohub-reference"}
+S3_REFERENCE = {"east": "czbiohub-reference-east",
+                "west": "czbiohub-reference"}
 SAMPLE_REGEX = r'(?P<id>[^/]+)_(?P<read_number>R\d)_\d+.fastq.gz$'
 S3_INPUT_PATH = "s3://czb-seqbot/fastqs"
 
