@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
+
+# Import modified 'os' module with LC_LANG set so click doesn't complain
+from .os_utils import os
+
 import click
 
-from aguamenti.rnaseq import align
+from .rnaseq import align
 
 settings = dict(help_option_names=['-h', '--help'])
 
@@ -10,8 +14,7 @@ settings = dict(help_option_names=['-h', '--help'])
              context_settings=settings)
 def cli():
     """
-    Hi! Dobby is the heroic house-elf that automates SampleSheet generation
-    from Google Sheets. And, of course, Dobby is free.
+    Aguamenti creates reflow batches for AWS jobs from experiment IDs
     """
     pass
 

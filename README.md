@@ -3,10 +3,12 @@ Aguamenti
 ===============================
 
 [![Travis-CI build status](https://travis-ci.org/czbiohub/aguamenti)][travis-ci]
+[![Code Coverage](https://codecov.io/gh/czbiohub/aguamenti)][codecov]
 [![PyPI Version](https://pypi.python.org/pypi/aguamenti)][pypi]
 
 [travis-ci]: https://img.shields.io/travis/czbiohub/aguamenti.svg
 [pypi]: https://img.shields.io/pypi/v/aguamenti.svg
+[codecov]: https://codecov.io/gh/czbiohub/aguamenti/branch/master/graph/badge.svg
 
 
 What is `aguamenti`?
@@ -41,8 +43,22 @@ If you have non-conda Python:
 Features
 --------
 
-* Make a `samples.csv` file of all your samples for an RNA-seq alignment and
-  counting with Reflow:
+* Create an RNA-seq alignment batch with `samples.csv` and `config.json` files for
+  STAR alignment and HTSeq-count with Reflow:
     ```
-    python aguamenti/rnaseq.py 20181030_FS10000331_12_BNT40322-1214 mus s3://olgabot-maca/aguamenti-test/ > ~/samples.csv
+      aguamenti rnaseq-align  20181030_FS10000331_12_BNT40322-1214 mus s3://olgabot-maca/aguamenti-test/
+    Writing /Users/olgabot/code/aguamenti/samples.csv ...
+        Done.
+    Writing /Users/olgabot/code/aguamenti/config.json ...
+        Done.
+    ```
+
+* Create a RNA-seq alignment batch with a custom `reflow-workflows` path
+  (`--reflow-workflows-path`) and custom output (`--output`) location
+    ```
+      aguamenti rnaseq-align --reflow-workflows-path ~/code/reflow-workflows/ --output ~/code/reflow-batches/rnaseq/mus/20181030_FS10000331_12_BNT40322-1214/ 20181030_FS10000331_12_BNT40322-1214 mus s3://olgabot-maca/aguamenti-test/
+    Writing /Users/olgabot/code/reflow-batches/rnaseq/mus/20181030_FS10000331_12_BNT40322-1214/samples.csv ...
+        Done.
+    Writing /Users/olgabot/code/reflow-batches/rnaseq/mus/20181030_FS10000331_12_BNT40322-1214/config.json ...
+        Done.
     ```
