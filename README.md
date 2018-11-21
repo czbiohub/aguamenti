@@ -33,3 +33,13 @@ Features
 --------
 
 * TODO
+
+* Create a RNA-seq alignment batch with a custom `reflow-workflows` path
+  (`--reflow-workflows-path`) and custom output (`--output`) location
+```
+  aguamenti rnaseq-align --reflow-workflows-path ~/code/reflow-workflows/ --output ~/code/reflow-batches/rnaseq/mus/20181030_FS10000331_12_BNT40322-1214/ 20181030_FS10000331_12_BNT40322-1214 mus s3://olgabot-maca/aguamenti-test/
+Writing /Users/olgabot/code/reflow-batches/rnaseq/mus/20181030_FS10000331_12_BNT40322-1214/samples.csv ...
+	Done.
+Writing /Users/olgabot/code/reflow-batches/rnaseq/mus/20181030_FS10000331_12_BNT40322-1214/config.json ...
+	Done.
+```
