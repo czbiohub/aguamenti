@@ -3,10 +3,12 @@ Aguamenti
 ===============================
 
 [![Travis-CI build status](https://travis-ci.org/czbiohub/aguamenti)][travis-ci]
+[![Code Coverage](https://codecov.io/gh/czbiohub/aguamenti)][codecov]
 [![PyPI Version](https://pypi.python.org/pypi/aguamenti)][pypi]
 
 [travis-ci]: https://img.shields.io/travis/czbiohub/aguamenti.svg
 [pypi]: https://img.shields.io/pypi/v/aguamenti.svg
+[codecov]: https://codecov.io/gh/czbiohub/aguamenti/branch/master/graph/badge.svg
 
 
 What is `aguamenti`?
