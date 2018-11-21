@@ -1,7 +1,6 @@
 pytest
 flake8
 coverage
-python-coveralls
 click
 pandas
 git+https://github.com/czbiohub/utilities.git#egg=czb-util
