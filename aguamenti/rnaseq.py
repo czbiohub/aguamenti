@@ -28,11 +28,14 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
 @click.option('--reflow-workflows-path', default=REFLOW_WORKFLOWS,
               help='Location of reflow-workflows directory containing .rf '
                    'files')
+@click.option('--region', default=REGION,
+              help="Either 'east' or 'west', depending on where your fastq "
+                   "files are")
 @click.option('--workflow', default='star_htseq.rf',
               help="Which workflow to run on these files")
 def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
           output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
-          workflow='star_htseq.rf'):
+          region=REGION, workflow='star_htseq.rf'):
     """Create a samples.csv file
 
     \b
@@ -66,6 +69,7 @@ def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
     samples['name'] = samples.index
     samples['genome'] = TAXA_GENOMES[taxon]
     samples['output'] = s3_output_path
+    samples['region'] = region
 
     # Write filenames
     csv_filename = write_samples(output, samples)
