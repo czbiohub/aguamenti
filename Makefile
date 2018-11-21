@@ -12,3 +12,12 @@ coverage:
 
 lint:
 	flake8 --exclude docs aguamenti
+
+conda_install:
+	conda install --file conda_requirements.txt
+	pip install -r requirements.txt
+	pip install .
+
+install:
+	pip install -r requirements.txt
+	pip install .
