@@ -2,13 +2,8 @@
 Aguamenti
 ===============================
 
-[![Travis-CI build status](https://travis-ci.org/czbiohub/aguamenti)][travis-ci]
-[![Code Coverage](https://codecov.io/gh/czbiohub/aguamenti)][codecov]
-[![PyPI Version](https://pypi.python.org/pypi/aguamenti)][pypi]
-
-[travis-ci]: https://img.shields.io/travis/czbiohub/aguamenti.svg
-[pypi]: https://img.shields.io/pypi/v/aguamenti.svg
-[codecov]: https://codecov.io/gh/czbiohub/aguamenti/branch/master/graph/badge.svg
+[![Travis-CI build status](https://img.shields.io/travis/czbiohub/aguamenti.svg)](https://travis-ci.org/czbiohub/aguamenti)
+[![Code Coverage](https://codecov.io/gh/czbiohub/aguamenti/branch/master/graph/badge.svg)](https://codecov.io/gh/czbiohub/aguamenti)
 
 
 What is `aguamenti`?
@@ -30,6 +25,7 @@ To install this code, clone this github repository and use `pip` to install
     git clone https://github.com/olgabot/aguamenti.git
     cd aguamenti
 
+
 If you have the
 [Anaconda Python distribution](anaconda.com/download/)/[Miniconda](https://conda.io/miniconda.html) (suggested):
 
@@ -37,7 +33,8 @@ If you have the
 
 If you have non-conda Python:
 
-    make install 
+    make install
+
 
 
 Features
