@@ -46,7 +46,6 @@ def test_rnaseq(data_folder, experiment_id, taxon, s3_output):
     pdt.assert_frame_equal(test, true)
 
 
-
 def test_rnaseq_custom_output(data_folder, experiment_id, taxon, s3_output,
                               tmpdir):
     from aguamenti.rnaseq import align

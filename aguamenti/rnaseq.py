@@ -74,4 +74,3 @@ def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
     # Write filenames
     csv_filename = write_samples(output, samples)
     write_config(csv_filename, output, reflow_workflows_path, workflow)
-
