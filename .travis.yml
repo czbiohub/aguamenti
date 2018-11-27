@@ -7,6 +7,8 @@ before_install:
 - chmod +x miniconda.sh
 - "./miniconda.sh -b"
 - export PATH=~/miniconda3/bin/:$PATH
+- # some configuration to make it easy to install things
+- conda config --set always_yes yes --set changeps1 no
 - conda update --yes conda
 install:
 - conda create -n testenv --yes python=$TRAVIS_PYTHON_VERSION pip
