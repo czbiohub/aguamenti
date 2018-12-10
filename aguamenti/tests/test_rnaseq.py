@@ -28,6 +28,7 @@ def s3_output():
 def rnaseq_folder(data_folder):
     return os.path.join(data_folder, 'rnaseq')
 
+
 @pytest.fixture
 def true_config(rnaseq_folder):
     from aguamenti.os_utils import REFLOW_WORKFLOWS
