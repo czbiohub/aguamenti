@@ -1,7 +1,6 @@
 from click.testing import CliRunner
 
 
-
 def test_cli():
     from aguamenti.commandline import cli
 
