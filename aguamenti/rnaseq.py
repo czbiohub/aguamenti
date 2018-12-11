@@ -9,6 +9,7 @@ from .s3_utils import S3_INPUT_PATH, get_fastqs_as_r1_r2_columns
 
 
 REGION = 'west'
+WORKFLOW = 'rnaseq.rf'
 
 # Taxons (species) with available references
 SUPPORTED_TAXA = ('mus',)
@@ -31,11 +32,11 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
 @click.option('--region', default=REGION,
               help="Either 'east' or 'west', depending on where your fastq "
                    "files are")
-@click.option('--workflow', default='star_htseq.rf',
+@click.option('--workflow', default=WORKFLOW,
               help="Which workflow to run on these files")
 def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
           output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
-          region=REGION, workflow='star_htseq.rf'):
+          region=REGION, workflow=WORKFLOW):
     """Create a samples.csv file
 
     \b
