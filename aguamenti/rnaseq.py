@@ -21,7 +21,9 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
 @click.argument("taxon")
 @click.argument('s3_output_path')
 @click.option("--s3-input-path", default=S3_INPUT_PATH,
-              help="Location of input folders")
+              help="Location of input folders. Where the input unaligned "
+                   "fastqs are coming from, default is '"
+                   "s3://czb-seqbot/fastqs'")
 @click.option('--output', default='.',
               help='Where to output the samples.csv and config.json files to.'
                    ' Default is the current directory.')
@@ -49,8 +51,7 @@ def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
     s3_output_path : str
         Where to output the aligned files to
     s3_input_path : str
-        Where the input unaligned fastqs are coming from, default is
-        's3://czb-seqbot/fastqs'
+
     """
     output = sanitize_path(output)
     reflow_workflows_path = sanitize_path(reflow_workflows_path)
