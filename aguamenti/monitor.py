@@ -28,8 +28,6 @@ def traverse_find_reflow_batch_dirs(dirname):
 
 def echo_n_status(n_statuses, n_total):
     for status, n in sorted(n_statuses.items()):
-        # print(f"\t{status}: n: {n}")
-        # print(f"\t{status}: n_total: {n_total}")
         click.echo(f"\t{status}:\t{n}/{n_total}\t({100*n/n_total:.3f}%)")
 
 
