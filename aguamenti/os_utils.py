@@ -11,6 +11,7 @@ HOME = os.path.expanduser("~")
 REFLOW_WORKFLOWS = os.path.join(HOME, "reflow-workflows")
 REFLOW_BATCHES = os.path.join(HOME, "reflow-batches")
 
+
 def sanitize_path(path):
     """Make sure path is absolute and user-expanded"""
     return os.path.abspath(os.path.expanduser(path))

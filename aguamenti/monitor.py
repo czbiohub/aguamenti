@@ -2,12 +2,10 @@
 from .os_utils import os, REFLOW_BATCHES, sanitize_path
 
 from collections import defaultdict
-from io import BytesIO
 import subprocess
 
 
 import click
-import pandas as pd
 
 from .reflow_utils import SAMPLES_CSV, CONFIG_JSON
 
