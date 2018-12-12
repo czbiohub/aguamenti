@@ -33,7 +33,8 @@ def echo_n_status(n_statuses, n_total):
         click.echo(f"\t{status}:\t{n}/{n_total}\t({100*n/n_total:.3f}%)")
 
 
-@click.command(short_help="Summarize currently running")
+@click.command(short_help="Summarize done/running/waiting/canceled reflow "
+                          "batch jobs")
 @click.option('--reflow-batches-path', default=REFLOW_BATCHES,
               help='Parent directory of subfolders containing reflow batch '
                    'files "samples.csv" and "config.json"')
