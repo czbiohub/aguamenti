@@ -11,8 +11,12 @@ import pandas as pd
 
 from .reflow_utils import SAMPLES_CSV, CONFIG_JSON
 
+
 STATE_JSON = 'state.json'
 STATE_LOCK = 'state.lock'
+
+STATUS_FILES = STATE_JSON, STATE_LOCK, CONFIG_JSON, SAMPLES_CSV
+
 
 LISTBATCH_COLS = ["id", "run", "status"]
 KNOWN_STATUSES = 'done', 'running', 'waiting', 'canceled'
@@ -20,7 +24,7 @@ KNOWN_STATUSES = 'done', 'running', 'waiting', 'canceled'
 
 def traverse_find_reflow_batch_dirs(dirname):
     for root, dirs, files in os.walk(dirname):
-        if STATE_JSON in files and STATE_LOCK in files:
+        if all(x in files for x in STATUS_FILES):
             yield root
 
 
