@@ -1,7 +1,7 @@
 # Reflow outputs - must force add to avoid cluttering the repo
 samples.csv
 config.json
-
+log.*
 
 *.py[cod]
 
