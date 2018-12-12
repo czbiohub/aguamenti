@@ -6,6 +6,7 @@ from .os_utils import os  # noqa: F401
 import click
 
 from .rnaseq import align
+from .monitor import listbatches
 
 settings = dict(help_option_names=['-h', '--help'])
 
@@ -20,7 +21,7 @@ def cli():
 
 
 cli.add_command(align, name='rnaseq-align')
-
+cli.add_command(listbatches, name="listbatches")
 
 if __name__ == "__main__":
     cli()
