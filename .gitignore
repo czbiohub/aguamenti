@@ -2,6 +2,7 @@
 samples.csv
 config.json
 log.*
+state.*
 
 *.py[cod]
 
