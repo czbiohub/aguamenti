@@ -6,7 +6,7 @@ from .os_utils import os  # noqa: F401
 import click
 
 from .rnaseq import align
-from .monitor import listbatches
+from .status import listbatches
 
 settings = dict(help_option_names=['-h', '--help'])
 

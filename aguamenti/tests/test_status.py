@@ -5,14 +5,14 @@ from click.testing import CliRunner
 
 
 def test_traverse_find_reflow_batch_dirs(data_folder):
-    from aguamenti.monitor import traverse_find_reflow_batch_dirs
+    from aguamenti.status import traverse_find_reflow_batch_dirs
 
     reflow_dirs = traverse_find_reflow_batch_dirs(data_folder)
     assert sum(1 for x in reflow_dirs) == 1
 
 
 def test_echo_n_status(capsys):
-    from aguamenti.monitor import echo_n_status
+    from aguamenti.status import echo_n_status
 
     n_statuses = {"waiting": 1, "canceled": 2, "done": 3, "running": 4}
     n_total = 10
@@ -24,7 +24,7 @@ def test_echo_n_status(capsys):
 
 
 def test_listbatches(data_folder):
-    from aguamenti.monitor import listbatches
+    from aguamenti.status import listbatches
 
     runner = CliRunner()
     result = runner.invoke(listbatches, ['--reflow-batches-path', data_folder])

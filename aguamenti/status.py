@@ -33,14 +33,14 @@ def echo_n_status(n_statuses, n_total):
 
 @click.command(short_help="Summarize done/running/waiting/canceled reflow "
                           "batch jobs")
-@click.option('--reflow-batches-path', default=REFLOW_BATCHES,
+@click.option('--path', default=REFLOW_BATCHES,
               help='Parent directory of subfolders containing reflow batch '
                    'files "samples.csv" and "config.json"')
-def listbatches(reflow_batches_path, n_last_words=4):
+def listbatches(path, n_last_words=4):
     """Summarize done, running, waiting, canceled reflow batch jobs"""
-    reflow_batches_path = sanitize_path(reflow_batches_path)
+    path = sanitize_path(path)
 
-    reflow_batch_dirs = traverse_find_reflow_batch_dirs(reflow_batches_path)
+    reflow_batch_dirs = traverse_find_reflow_batch_dirs(path)
     for reflow_batch_dir in reflow_batch_dirs:
         os.chdir(reflow_batch_dir)
 
