@@ -22,7 +22,6 @@ def test_echo_n_status(capsys):
     assert 'done' in captured
     assert 'waiting' in captured
     assert 'running' in captured
-    assert captured.out == true
 
 
 def test_listbatches(data_folder):
