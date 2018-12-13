@@ -18,8 +18,10 @@ def test_echo_n_status(capsys):
     n_total = 10
     echo_n_status(n_statuses, n_total)
     captured = capsys.readouterr()
-    true = '\tcanceled:\t2/10\t(20.000%)\n\tdone:\t3/10\t(30.000%)\n\t' \
-           'running:\t4/10\t(40.000%)\n\twaiting:\t1/10\t(10.000%)\n'
+    assert 'canceled' in captured
+    assert 'done' in captured
+    assert 'waiting' in captured
+    assert 'running' in captured
     assert captured.out == true
 
 
