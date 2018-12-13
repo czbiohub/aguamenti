@@ -17,7 +17,7 @@ def test_echo_n_status(capsys):
     n_statuses = {"waiting": 1, "canceled": 2, "done": 3, "running": 4}
     n_total = 10
     echo_n_status(n_statuses, n_total)
-    captured = capsys.readouterr()
+    captured = capsys.readouterr().out
     assert 'canceled' in captured
     assert 'done' in captured
     assert 'waiting' in captured
@@ -28,7 +28,7 @@ def test_listbatches(data_folder):
     from aguamenti.status import listbatches
 
     runner = CliRunner()
-    result = runner.invoke(listbatches, ['--reflow-batches-path', data_folder])
+    result = runner.invoke(listbatches, ['--path', data_folder])
 
     # exit code of '0' means success!
     assert result.exit_code == 0
