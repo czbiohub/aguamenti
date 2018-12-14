@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 # Import modified 'os' module with LC_LANG set so click doesn't complain
-from .os_utils import os  # noqa: F401
+from aguamenti.os_utils import os  # noqa: F401
+import sys
 
 import click
 
-from .rnaseq import align
+from aguamenti.rnaseq import align
+from aguamenti.batchwrapper import wrap
 
 settings = dict(help_option_names=['-h', '--help'])
 
@@ -20,7 +22,8 @@ def cli():
 
 
 cli.add_command(align, name='rnaseq-align')
+cli.add_command(wrap, name='wrap')
 
 
 if __name__ == "__main__":
-    cli()
+    cli(sys.argv[1:])

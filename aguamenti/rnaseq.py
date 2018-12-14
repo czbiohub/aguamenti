@@ -16,6 +16,34 @@ SUPPORTED_TAXA = ('mus',)
 TAXA_GENOMES = {'mus': 'mouse/vM19'}
 
 
+def _align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
+          output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
+          region=REGION, workflow=WORKFLOW):
+    output = sanitize_path(output)
+    reflow_workflows_path = sanitize_path(reflow_workflows_path)
+
+    # Make the output directory if it's not already there
+    os.makedirs(output, exist_ok=True)
+
+    # Check that the taxa actually has a reference genome, otherwise
+    # no alignment :(
+    assert taxon in SUPPORTED_TAXA
+
+    # Get dataframe with 1 sample per row, read1 and read2 as columns
+    samples = get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path)
+
+    # Set parameters for star_htseq.rf
+    samples['name'] = samples.index
+    samples['genome'] = TAXA_GENOMES[taxon]
+    samples['output'] = s3_output_path
+    samples['region'] = region
+
+    # Write filenames
+    csv_filename = write_samples(output, samples)
+    write_config(csv_filename, output, reflow_workflows_path, workflow)
+    return samples
+
+
 @click.command(short_help="Create a csv of samples to input to reflow runbatch"
                           " for RNA-seq alignment and gene counting")
 @click.argument("experiment_id")
@@ -54,25 +82,6 @@ def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
     s3_input_path : str
 
     """
-    output = sanitize_path(output)
-    reflow_workflows_path = sanitize_path(reflow_workflows_path)
-
-    # Make the output directory if it's not already there
-    os.makedirs(output, exist_ok=True)
-
-    # Check that the taxa actually has a reference genome, otherwise
-    # no alignment :(
-    assert taxon in SUPPORTED_TAXA
-
-    # Get dataframe with 1 sample per row, read1 and read2 as columns
-    samples = get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path)
-
-    # Set parameters for star_htseq.rf
-    samples['name'] = samples.index
-    samples['genome'] = TAXA_GENOMES[taxon]
-    samples['output'] = s3_output_path
-    samples['region'] = region
-
-    # Write filenames
-    csv_filename = write_samples(output, samples)
-    write_config(csv_filename, output, reflow_workflows_path, workflow)
+    _align(experiment_id, taxon, s3_output_path, s3_input_path=s3_input_path,
+           output=output, reflow_workflows_path=reflow_workflows_path,
+           region=region, workflow=workflow)

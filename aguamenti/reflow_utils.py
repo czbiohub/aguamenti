@@ -15,7 +15,20 @@ def write_config(csv_filename, output, reflow_workflows_path, workflow):
 
 
 def write_samples(output, samples):
-    """Write samples.csv file to path"""
+    """Write samples.csv file to path
+
+    Parameters
+    ----------
+    output : str
+        Folder to write samples.csv file to
+    samples : pandas.DataFrame
+        Dataframe containing samples for reflow runbatch
+
+    Returns
+    -------
+    csv : str
+        Full path to the output samples.csv
+    """
     csv = os.path.join(output, 'samples.csv')
     click.echo(f"Writing {csv} ...")
     samples.to_csv(csv)

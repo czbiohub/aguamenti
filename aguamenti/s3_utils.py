@@ -31,6 +31,14 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
     s3_input_bucket, s3_input_prefix = s3u.s3_bucket_and_key(
         s3_input_path)
 
+    all_filenames = [
+        filename
+        for filename, size in s3u.get_size(
+            s3_input_bucket, os.path.join(s3_input_prefix, experiment_id)
+        )
+    ]
+
+
     data = [
         (filename, size)
         for filename, size in s3u.get_size(
@@ -53,4 +61,9 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
     samples = fastqs_with_data.pivot(index='id', columns='read_number',
                                      values='full_path')
     samples = samples.rename(columns={'R1': 'read1', "R2": "read2"})
+
+    n_samples = len(samples.index)
+
+    print(f"--- Found {n_samples} fastq.gz read pairs in {s3_input_path} ---")
+
     return samples
