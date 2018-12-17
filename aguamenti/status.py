@@ -35,7 +35,8 @@ def echo_n_status(n_statuses, n_total):
                           "batch jobs")
 @click.option('--path', default=REFLOW_BATCHES,
               help='Parent directory of subfolders containing reflow batch '
-                   'files "samples.csv" and "config.json"')
+                   'files "samples.csv" and "config.json", '
+                   f'default: {REFLOW_BATCHES}')
 def listbatches(path, n_last_words=4):
     """Summarize done, running, waiting, canceled reflow batch jobs"""
     path = sanitize_path(path)

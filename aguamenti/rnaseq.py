@@ -23,19 +23,19 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
 @click.argument('s3_output_path')
 @click.option("--s3-input-path", default=S3_INPUT_PATH,
               help="Location of input folders. Where the input unaligned "
-                   "fastqs are coming from, default is '"
-                   "s3://czb-seqbot/fastqs'")
+                   f"fastqs are coming from, default is '{S3_INPUT_PATH}'")
 @click.option('--output', default='.',
               help='Where to output the samples.csv and config.json files to.'
                    ' Default is the current directory.')
 @click.option('--reflow-workflows-path', default=REFLOW_WORKFLOWS,
               help='Location of reflow-workflows directory containing .rf '
-                   'files')
+                   f'files. Default: {REFLOW_WORKFLOWS}')
 @click.option('--region', default=REGION,
               help="Either 'east' or 'west', depending on where your fastq "
-                   "files are")
+                   f"files are. Default: {REGION}")
 @click.option('--workflow', default=WORKFLOW,
-              help="Which workflow to run on these files")
+              help="Which workflow to run on these files. " \
+                   f"Default: {WORKFLOW}")
 def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
           output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
           region=REGION, workflow=WORKFLOW):
