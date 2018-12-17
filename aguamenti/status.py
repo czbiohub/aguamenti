@@ -28,7 +28,10 @@ def traverse_find_reflow_batch_dirs(dirname):
 
 def echo_n_status(n_statuses, n_total):
     for status, n in sorted(n_statuses.items()):
-        click.echo(f"\t{status}:\t{n}/{n_total}\t({100*n/n_total:.3f}%)")
+        # "done" is short relative to other statuses, so pad with one extra
+        # tab so it looks nice
+        sep = '\t' if status != 'done' else '\t\t'
+        click.echo(f"\t{status}:{sep}{n}/{n_total}\t({100*n/n_total:.3f}%)")
 
 
 @click.command(short_help="Summarize done/running/waiting/canceled reflow "
