@@ -5,9 +5,9 @@ from .os_utils import os  # noqa: F401
 
 import click
 
-from .rnaseq import align
-from .check import check_batch
-from .status import listbatches
+from aguamenti.rnaseq import align
+from aguamenti.status import listbatches
+from aguamenti.check import check_batch
 
 settings = dict(help_option_names=['-h', '--help'])
 
