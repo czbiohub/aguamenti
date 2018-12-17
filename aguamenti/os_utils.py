@@ -8,7 +8,9 @@ os.environ['LC_LANG'] = unicode_usa
 os.environ["LC_ALL"] = unicode_usa
 
 HOME = os.path.expanduser("~")
+
 REFLOW_WORKFLOWS = os.path.join(HOME, "reflow-workflows", "workflows")
+REFLOW_BATCHES = os.path.join(HOME, "reflow-batches")
 
 
 def sanitize_path(path):

@@ -1,24 +1,26 @@
 language: python
-python:
-- '3.6'
-# Enable 3.7 without globally enabling sudo and dist: xenial for other build jobs
 matrix:
   include:
-    - python: 3.7
-      dist: xenial
-      sudo: true
+  - python: 3.6
+  - python: 3.7
+    dist: xenial
+    sudo: true
 before_install:
 - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
 - chmod +x miniconda.sh
 - "./miniconda.sh -b"
 - export PATH=~/miniconda3/bin/:$PATH
-- # some configuration to make it easy to install things
+- 
 - conda config --set always_yes yes --set changeps1 no
 - conda update --yes conda
 install:
 - conda create -n testenv --yes python=$TRAVIS_PYTHON_VERSION pip
 - source activate testenv
 - make conda_install
+- 
+- wget https://github.com/grailbio/reflow/releases/download/reflow0.6.8/reflow0.6.8.linux.amd64
+- sudo mv reflow0.6.8.linux.amd64 /usr/local/bin/reflow
+- sudo chmod ugo+x /usr/local/bin/reflow
 before_script:
 - git config --global user.email "olga.botvinnik@gmail.com"
 - git config --global user.name "olgabot"
@@ -39,3 +41,5 @@ env:
   global:
   - secure: DuIt34ItClj+dYW36XaQZjq0e8WXx3fmr0C7qt/LDlefK/7OmAub6DF9zaKpyb6zKPO9N5ygGrEs+nBEBx1ZsoQKOCpLJ3jiMw+kgoyH/+x7Nw1W4DJKGMxTietxBZXkWfNJyY83ILGSM3qqr6U3TcVpnDSy2TTHlpmvb3P1bt0uqwrUkaA/czjij2r6mgougRglmGDFMu5nm0nIufzE4vZzSjJzFZrLwoTmwvnX20vrCX/IxkNaeAv7P5UXyjeYAP7v70O3e2irpCscP+5IuiMo9cDMDaiLxjwZW1htpMUfNQ14uiO+hxxNELHBD68tqC3vuK2aEL2ARmhCdQSqfgLLsMTS97gllXau0MdFWMnt886NrnR3M3VDXM2a1JwkZs8E+1vKVdTz1TiqYr/DH3BGJ/2MmhEqU48/S3rHBitKfpe73QcCAGn7iTQZbPeVZLcm5xLjGmKW391Q4TM6d/jaTUz82xGogdMfvlaYPZnLfPV3g5XWx2kAs2RwpSuTUcti4dxnkAguXwKkQGbIPT2JMIZ6ZIbos2vKMp6+e821gQ+LTSduSAT7wasEphwqAsl1q0Y0AUKovhaz40R6FRsJ73V5ktpaI2Pt9P8qsrf3Ip9p1I1cC664/c6xWyEO6iJ+u6hH0AB6x0wgl9bN/p1iovig9dptHn2BPJtmiVU=
   - secure: KdhXCJIcYfCZGRFpO50cz2z/bfxnDB5MFsBfPc4hIyhih1aJNKBk1DJ7D8ByHcO4OF4f1Gy/Sl3W2hBXPoR1IkftvQg/CbpMK1xEX61mzMKqaQA19XC1e4DDqQIvtQX/wTmzRsPfwMKLpKoLLEuSlUJJf6k6QqSOEbo7NSFb7nnhwDtLmq4a4jjaj7qgGxeib1EgEaRenxVDzoYGXyKRkQJPG7D0amLil4fqwHazjPRQFcGwFEum6f6os32TDARpKZDJheqekAL2dVqjW3MCgZjQ5/U359wVaoYrdTmPkBkTFsZIhduzTOkk9c/HaafocI7sOXzpKZ8no1aCBeGEpvxQl+TSkCyTzbZlyQ8DGEV76pvibuG4h9aEbBL+r7FQFRZi6dYt6qZl/f+UR0APAhmCED1MabmulivrRVsVgBu5dLFLJ4Av2ARqj1gnXH4VngGraiw7c+sgprBMetT9nwH55/wCkLcoLsIqiSCE0iFTdr4GGyKs0SrMQCe4/ShOuWT09csZZa8twDWX5wiwM35YBcltgSpLFtKffThRymiJ1QmgmIZ9zOq/orrfLw40GQsaDL8j9Kz2soHnAFM0DsltnOQQ3rB1/Jvh+Npk5L9JdkFcwJdiqtwVOInI2nd6ISR7b2vLNFGdGMaXUIVC78dM3VYLCaOjxkiOpoyfm+Q=
+  - secure: HeN+BR/anREU7m/xg0f2htCzL2/phIa8S2V7yi0ERqlUaEydyGcbE3bd3ES8ynpGDXSw556LDeoI1wfCjcf88gtpdEM3hrD+J6bBzlNtzY4NNAKtIl9133HKgYa+P2hU6RRHcPzcs1QXCftmrYcmmxjIG5CHPViLhDONARXRZCMiuFWD83udMnGbLqhnp83y+WVWdkQF15PcHJIuiLx2pkGpbEXfRthpeKQo7cmfVrJXU8i9V9h0fcdV6+3fTJNY2BV/R4iw7ortO2yOoayEwvyGfZGGr9IBzBiJgViemEl9Ws9LWWpZiuUaHCJEoZImWKW0TFhwBaqlhj3tmBi0WaPCvgJFJ0oK2Z7JHlumYqyXmNMScfYt1sfIwMLEwvpC7yhLEreaSExcn5XJ1CZNv4xV2Ak1bSEKeEJJVw7j3jhBWI5GnOWxS78za7ue09/BF3/E+ZkoSHUJ31u9cjjqWtY3LwPNhG9sE+BBzcALljD+DEN+505EPoKCnpm1+k1bIdpH0ar3x0zetqft9qcs23QyT7RfTeORJfXCNrOx7oisgjLEgSfT0qQ0naaYG3msWDqbUy8+6J+n4wQbpNiSEOEsD7yrfffpvJ42WW5MpLp/3Ofo2yuyhIaO2KY5FxUHpucbJukARbrzrDpBTODhLOBQvEe6YCQhON3Hwpaa1DE=
+  - secure: tCC0zqJBjVN0B/vKghOwNtNBoNfA1ywatzt1SwHgNaM520YUs9L0zgFDxWmXSEUFArPExPLWks5ySHrK7KMSizucxIYsB42BND4lRhZiNzxoWG1ecrsaJJ7bYPYrZ4T5WkbH+8WTp3KycPoF6ltrMFr4qlkrJDU0bwG8LtaJWyZ9pbrQvIenc2Hr+xZbWPuUli0nczk/HZQ6+8QXXgT03g2g6dhoxpfI05/HA2jR5Yo1a/kkDPEN0T57hVdWyBL18c1xfVvQmqXI9KZu0pMvshD6HHh87IYgFztwEuE7im7H23oYY0mxx9BiuA8Z2xOSOMfYvGabApEu4g3tHzgSmAdt9lErphT6Np3lPkb7QuLsQw/rP4cxd2Emxd0mEcpPNGeCfwkoEefX0u0Q5N0b4lVPAoXCepxzU9uWuicbY3HEzAMM/izj+EE3MUNco7pyXHeH0NyqniaGndrQeyVxYXsjaDkPXMcO/nAaPLmIYZCA0gV6YUxwnKYIMuU17OyVHX2uzHPZZz0J4VxV06xk/YkIOey+zPHFzyAIW4bBqJr8T6umcl0BKziCT/3lA1g9DgTha8gr7CFKIUm6omXZqWJ3LMUgBIWMPi4+sCWxhjZVXbPLIU8M3O2LC7MwDK3wJ/BryJpzyO/muGKwn+qCIGjc6btjgQqW3dOfwwjsnrg=

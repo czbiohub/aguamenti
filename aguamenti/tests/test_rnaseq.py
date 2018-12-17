@@ -38,8 +38,6 @@ def true_config(rnaseq_folder):
         true_config = json.load(f)
     true_config['program'] = os.path.join(REFLOW_WORKFLOWS,
                                           true_config['program'])
-    true_config['runs_file'] = os.path.join(os.path.realpath(os.path.curdir),
-                                            true_config['runs_file'])
     return true_config
 
 
