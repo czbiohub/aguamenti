@@ -1,8 +1,8 @@
 # Import modified 'os' module with LC_LANG set so click doesn't complain
-from .os_utils import os, REFLOW_BATCHES, sanitize_path
+from .os_utils import os, REFLOW_BATCHES, sanitize_path, \
+    get_stdout_from_command
 
 from collections import defaultdict
-import subprocess
 
 
 import click
@@ -48,14 +48,11 @@ def listbatches(path, n_last_words=4):
     for reflow_batch_dir in reflow_batch_dirs:
         os.chdir(reflow_batch_dir)
 
-        listbatch = subprocess.run(["reflow", "listbatch"],
-                                   stdout=subprocess.PIPE)
-        lines = listbatch.stdout.decode("utf-8").splitlines()
+        lines = get_stdout_from_command(["reflow", "listbatch"])
 
         n_known_statuses = dict.fromkeys(KNOWN_STATUSES, 0)
         n_other_statuses = defaultdict(int)
         for line in lines:
-            line = line.strip()
             matched_status = False
             for status in KNOWN_STATUSES:
                 if line.endswith(status):
