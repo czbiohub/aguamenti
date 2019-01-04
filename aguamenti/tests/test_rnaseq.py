@@ -56,6 +56,7 @@ def test_rnaseq(rnaseq_folder, experiment_id, taxon, s3_output, true_config):
     assert result.exit_code == 0
     assert 'samples.csv' in result.output
     assert 'config.json' in result.output
+    assert 0
 
     # Make sure the files are there
     assert os.path.exists('samples.csv')

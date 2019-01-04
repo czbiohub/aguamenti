@@ -31,12 +31,7 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
     s3_input_bucket, s3_input_prefix = s3u.s3_bucket_and_key(
         s3_input_path)
 
-    all_filenames = [
-        filename
-        for filename, size in s3u.get_size(
-            s3_input_bucket, os.path.join(s3_input_prefix, experiment_id)
-        )
-    ]
+    prefix = os.path.join(s3_input_prefix, experiment_id)
 
 
     data = [
@@ -64,6 +59,6 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
 
     n_samples = len(samples.index)
 
-    print(f"--- Found {n_samples} fastq.gz read pairs in {s3_input_path} ---")
+    print(f"--- Found {n_samples} fastq.gz read pairs in {prefix} ---")
 
     return samples

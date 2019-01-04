@@ -18,7 +18,7 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
 
 def _align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
           output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
-          region=REGION, workflow=WORKFLOW):
+          region=REGION, workflow=WORKFLOW, write=False):
     output = sanitize_path(output)
     reflow_workflows_path = sanitize_path(reflow_workflows_path)
 
@@ -39,8 +39,9 @@ def _align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
     samples['region'] = region
 
     # Write filenames
-    csv_filename = write_samples(output, samples)
-    write_config(csv_filename, output, reflow_workflows_path, workflow)
+    if write:
+        csv_filename = write_samples(output, samples)
+        write_config(csv_filename, output, reflow_workflows_path, workflow)
     return samples
 
 
