@@ -15,7 +15,6 @@ WORKFLOW = 'rnaseq.rf'
 SUPPORTED_TAXA = ('mus',)
 TAXA_GENOMES = {'mus': 'mouse/vM19'}
 
-
 def _align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
           output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
           region=REGION, workflow=WORKFLOW, write=False):

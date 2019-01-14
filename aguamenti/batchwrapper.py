@@ -1,11 +1,10 @@
 # Import modified 'os' module with LC_LANG set so click doesn't complain
-from .os_utils import os, REFLOW_WORKFLOWS, sanitize_path, REFLOW_BATCHES # noqa: F401
+from .os_utils import os, REFLOW_WORKFLOWS, REFLOW_BATCHES
 
 import click
 import pandas as pd
 
 from .reflow_utils import write_config, write_samples
-from .s3_utils import S3_INPUT_PATH, get_fastqs_as_r1_r2_columns
 from .rnaseq import _align
 
 REGION = 'west'
@@ -48,7 +47,9 @@ def wrap(parameters_csv, project_name,
     print(f"parameters_csv: {parameters_csv}")
     # Import the csv as pandas df
     data = pd.read_csv(parameters_csv)
-    
+
+    # Get the workflow name and generate an output dir for the sample file
+    # and json in reflow_batches dir
     workflow_name = workflow.split('.')[0]
 
     output = os.path.join(reflow_batches_path, workflow_name,
