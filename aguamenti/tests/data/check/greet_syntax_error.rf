@@ -1,0 +1,12 @@
+param (
+    // Whom to greet
+    whom "hello"
+
+    // The greeting itself
+    greeting
+)
+
+
+val Main = exec(image := "ubuntu", mem := GiB) (out file) {"
+	echo {{greeting}} {{whom}} >>{{out}}
+"}

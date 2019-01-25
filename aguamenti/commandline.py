@@ -5,8 +5,9 @@ from .os_utils import os  # noqa: F401
 
 import click
 
-from .rnaseq import align
-from .status import listbatches
+from aguamenti.rnaseq import align
+from aguamenti.status import listbatches
+from aguamenti.check import check_batch
 
 settings = dict(help_option_names=['-h', '--help'])
 
@@ -22,6 +23,7 @@ def cli():
 
 cli.add_command(align, name='rnaseq-align')
 cli.add_command(listbatches, name="status")
+cli.add_command(check_batch, name="check-batch")
 
 if __name__ == "__main__":
     cli()
