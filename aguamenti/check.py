@@ -53,7 +53,7 @@ def check_batch(path):
     samples = read_samples(os.path.join(path, SAMPLES_CSV))
     config = read_config(os.path.join(path, CONFIG_JSON))
 
-    program = config['program']
+    program = os.path.join(path, config['program'])
 
     parameter_order = get_parameter_order(program)
 
