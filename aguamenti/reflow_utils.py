@@ -1,6 +1,13 @@
-import click
 import json
 import os
+import warnings
+
+import click
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    import pandas as pd
+
 
 SAMPLES_CSV = 'samples.csv'
 CONFIG_JSON = 'config.json'
@@ -24,3 +31,13 @@ def write_samples(output, samples):
     samples.to_csv(csv)
     click.echo("\tDone.")
     return csv
+
+
+def read_config(config_filename):
+    with open(config_filename) as f:
+        config = json.load(f)
+    return config
+
+
+def read_samples(csv_filename):
+    return pd.read_csv(csv_filename, index_col=0)

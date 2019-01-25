@@ -1,6 +1,13 @@
-from .os_utils import os, maybe_add_slash
-import pandas as pd
+import warnings
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    import pandas as pd
+
+
 from utilities import s3_util as s3u
+
+from .os_utils import os, maybe_add_slash
 
 
 S3_REFERENCE = {"east": "czbiohub-reference-east",
