@@ -43,4 +43,3 @@ def get_stdout_from_command(command):
     lines = result.stdout.decode("utf-8").splitlines()
     lines = [x.strip() for x in lines]
     return lines
-

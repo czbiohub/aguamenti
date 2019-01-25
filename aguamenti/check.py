@@ -2,14 +2,11 @@
 from .os_utils import os, sanitize_path, get_stdout_from_command
 
 from itertools import chain
-import json
 import subprocess
 
 import click
-import pandas as pd
 
 from .reflow_utils import SAMPLES_CSV, CONFIG_JSON, read_config, read_samples
-from .s3_utils import S3_INPUT_PATH, get_fastqs_as_r1_r2_columns
 
 
 REGION = 'west'
@@ -18,6 +15,7 @@ WORKFLOW = 'rnaseq.rf'
 # Taxons (species) with available references
 SUPPORTED_TAXA = ('mus',)
 TAXA_GENOMES = {'mus': 'mouse/vM19'}
+
 
 def get_parameter_order(reflow_program):
     lines = get_stdout_from_command(["reflow", "doc", reflow_program])
