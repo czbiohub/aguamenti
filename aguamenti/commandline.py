@@ -22,6 +22,7 @@ def cli():
 
 
 cli.add_command(align, name='rnaseq-align')
+cli.add_command(check_batch, name="check-batch")
 cli.add_command(listbatches, name="status")
 cli.add_command(check_batch, name="check-batch")
 

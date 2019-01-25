@@ -1,6 +1,13 @@
-import click
 import json
 import os
+import warnings
+
+import click
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    import pandas as pd
+
 
 import pandas as pd
 
