@@ -34,7 +34,7 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
               help="Either 'east' or 'west', depending on where your fastq "
                    f"files are. Default: {REGION}")
 @click.option('--workflow', default=WORKFLOW,
-              help="Which workflow to run on these files. " \
+              help="Which workflow to run on these files. "
                    f"Default: {WORKFLOW}")
 def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
           output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
