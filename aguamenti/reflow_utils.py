@@ -9,9 +9,6 @@ with warnings.catch_warnings():
     import pandas as pd
 
 
-import pandas as pd
-
-
 SAMPLES_CSV = 'samples.csv'
 CONFIG_JSON = 'config.json'
 
