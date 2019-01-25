@@ -1,5 +1,5 @@
 # Import modified 'os' module with LC_LANG set so click doesn't complain
-from .os_utils import os, sanitize_path, get_stdout_from_command
+from .os_utils import os, sanitize_path, get_stdout_stderr_from_command
 
 from itertools import chain
 import subprocess
@@ -18,16 +18,23 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
 
 
 def get_parameter_order(reflow_program):
-    lines = get_stdout_from_command(["reflow", "doc", reflow_program])
+    """Get the expected order of command line flags for a reflow program"""
+    stdout, stderr = get_stdout_stderr_from_command(
+        ["reflow", "doc", reflow_program])
+
+    stderr = '\n'.join(stderr)
+    if 'syntax error' in stderr:
+        raise ValueError("Syntax errors in Reflow program:\n"
+                         "{stderr}")
 
     # Save the parameters from the command
     parameter_order = []
-    for line in lines:
+    for line in stdout:
+        # First section is always parameters, then function definitions.
         if line.startswith('val'):
             val, parameter, *rest = line.split()
             parameter_order.append(parameter)
 
-        # First section is always parameters, then function definitions.
         # Ignore all function definitions since they're not parameters
         if line.startswith('Declarations'):
             break
@@ -50,6 +57,8 @@ def check_batch(path):
 
     parameter_order = get_parameter_order(program)
 
+    sample_id = samples.index[0]
+
     first_row = samples.iloc[0]
     arguments = {}
     for key, value in first_row.items():
@@ -63,6 +72,7 @@ def check_batch(path):
     command = ["reflow", "run", program] + arguments_ordered
 
     click.echo("---")
+    click.echo(f'Found sample with id "{sample_id}"!')
     click.echo(f"Running '{' '.join(command)}'")
     click.echo("---")
     subprocess.run(command)

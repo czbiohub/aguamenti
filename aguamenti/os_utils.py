@@ -26,6 +26,12 @@ def maybe_add_slash(path):
     return with_trailing_slash
 
 
+def decode(stderr_or_stdout):
+    decoded = stderr_or_stdout.decode("utf-8").splitlines()
+    lines = [x.strip() for x in decoded]
+    return lines
+
+
 def get_stdout_from_command(command):
     """Run a program on the command line, and save the stdout
 
@@ -40,6 +46,25 @@ def get_stdout_from_command(command):
         Newline-separated strings from output of command
     """
     result = subprocess.run(command, stdout=subprocess.PIPE)
-    lines = result.stdout.decode("utf-8").splitlines()
-    lines = [x.strip() for x in lines]
+    lines = decode(result.stdout)
     return lines
+
+
+def get_stdout_stderr_from_command(command):
+    """Run a program on the command line, and save the stdout
+
+    Parameters
+    ----------
+    command : list
+        list of strings to submit to subprocess.run
+
+    Returns
+    -------
+    lines : list
+        Newline-separated strings from output of command
+    """
+    result = subprocess.run(command, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    stdout = decode(result.stdout)
+    stderr = decode(result.stderr)
+    return stdout, stderr
