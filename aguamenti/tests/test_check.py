@@ -52,8 +52,9 @@ def test_check_batch(check_folder):
 
     captured = result.output
 
-    true = '---\nFound sample with id "english"!\nRunning \'' \
-           'reflow run hello.rf\'\n---\n'
+    found_sample = '---\nFound sample with id "english"'
+    running = 'greet.rf -whom world -greeting hello\'\n---\n'
 
     assert isinstance(captured, object)
-    assert true in captured
+    assert found_sample in captured
+    assert running in captured
