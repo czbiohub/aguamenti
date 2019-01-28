@@ -1,0 +1,3 @@
+experiment_id,taxon,s3_input_path,s3_output_path
+170910_A00111_0053_BH2HGKDMXX,mus,s3://czb-maca/Plate_seq/3_month/,s3://czb-maca/Plate_seq/3_month/results_realigned
+170910_A00111_0054_AH2HGWDMXX,mus,s3://czb-maca/Plate_seq/3_month/,s3://czb-maca/Plate_seq/3_month/results_realigned

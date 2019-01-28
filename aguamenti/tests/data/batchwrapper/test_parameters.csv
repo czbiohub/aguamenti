@@ -1,0 +1,3 @@
+experiment_id,taxon,s3_input_path,s3_output_path
+180626_A00111_0166_BH5LNVDSXX,mus,s3://czbiohub-seqbot/fastqs/,s3://czbiohub-seqbot/fastqs/180626_A00111_0166_BH5LNVDSXX/results_test
+180705_A00111_0170_BH5LTFDSXX,mus,s3://czbiohub-seqbot/fastqs/,s3://czbiohub-seqbot/fastqs/180705_A00111_0170_BH5LTFDSXX/results_test

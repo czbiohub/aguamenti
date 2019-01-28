@@ -28,10 +28,14 @@ TAXA_GENOMES = {'mus': 'mouse/vM19'}
                    f"Default: {REFLOW_BATCHES}")
 @click.option('--workflow', default=WORKFLOW,
               help="Which workflow to run on these files")
+@click.option('--merge-split-runs', default=False,
+              help="Align read pairs from split runs at once. Output "
+                   "location for the alignment must be the same. "
+              )
 def wrap(parameters_csv, project_name,
          reflow_workflows_path=REFLOW_WORKFLOWS,
          reflow_batches_path=REFLOW_BATCHES,
-         workflow=WORKFLOW):
+         workflow=WORKFLOW, merge_split_runs=False):
     """Create folders for each experiment ID in parameters_csv that
     contain the samples.csv and config.json for reflow runbatch
 
@@ -40,7 +44,7 @@ def wrap(parameters_csv, project_name,
     ----------
     parameters_csv : str
         A csv file with column names that are are the input parameters
-        for aguamenti rnaseq-align function. Inputs are EXPERIMENT_ID,
+        for reflow runbatch with rnaseq workflow. Inputs are EXPERIMENT_ID,
         TAXON, S3_INPUT_PATH, and S3_OUTPUT_PATH
 
     """
@@ -62,6 +66,13 @@ def wrap(parameters_csv, project_name,
         df = _align(write=False, **row)
         dfs.append(df)
     samples = pd.concat(dfs)
+
+    # Concatonate samples if runs were split
+    if merge_split_runs == True:
+        pass
+
+        n_merged = merged_samples.shape[0]
+        click.echo("Merged samples to {n_merged} fastq.gz R1, R2 read pairs")
 
     # Write concatenated samples.csv and a single json for all
     click.echo(f"Writing mega csv of all input samples to this folder: "
