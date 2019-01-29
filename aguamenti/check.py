@@ -46,7 +46,8 @@ def get_parameter_order(reflow_program):
 @click.option("--path", default='.',
               help="Where to look for samples.csv and config.json files. "
                    "Default is the current directory")
-def check_batch(path):
+@click.option("--debug/--no-debug", default=False)
+def check_batch(path, debug):
     """Reflow run the first line of a samples.csv"""
     path = sanitize_path(path)
 
@@ -69,7 +70,13 @@ def check_batch(path):
         (f"-{param}", arguments[param]) for param in parameter_order
     ]))
 
-    command = ["reflow", "run", program] + arguments_ordered
+    if debug:
+        base_command = ["reflow", "run", "-trace", program]
+    else:
+        base_command = ["reflow", "run", program]
+
+
+    command = base_command + arguments_ordered
 
     click.echo("---")
     click.echo(f'Found sample with id "{sample_id}"!')
