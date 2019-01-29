@@ -75,7 +75,6 @@ def check_batch(path, debug):
     else:
         base_command = ["reflow", "run", program]
 
-
     command = base_command + arguments_ordered
 
     click.echo("---")
