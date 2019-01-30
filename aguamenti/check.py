@@ -71,7 +71,7 @@ def check_batch(path, debug):
     ]))
 
     if debug:
-        base_command = ["reflow", "run", "-trace", program]
+        base_command = ["reflow", " -log=debug", "run", "-trace", program]
     else:
         base_command = ["reflow", "run", program]
 

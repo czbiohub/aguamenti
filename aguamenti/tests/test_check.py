@@ -77,4 +77,4 @@ def test_check_batch_debug(check_folder):
     assert isinstance(captured, object)
     assert found_sample in captured
     assert running in captured
-    assert 'reflow run -trace' in captured
+    assert 'reflow -log=debug run -trace' in captured
