@@ -58,3 +58,23 @@ def test_check_batch(check_folder):
     assert isinstance(captured, object)
     assert found_sample in captured
     assert running in captured
+
+
+def test_check_batch_debug(check_folder):
+    from aguamenti.check import check_batch
+
+    runner = CliRunner()
+    result = runner.invoke(check_batch, ['--debug', '--path', check_folder])
+
+    # exit code of '0' means success!
+    assert result.exit_code == 0
+
+    captured = result.output
+
+    found_sample = '---\nFound sample with id "english"'
+    running = 'greet.rf -whom world -greeting hello\'\n---\n'
+
+    assert isinstance(captured, object)
+    assert found_sample in captured
+    assert running in captured
+    assert 'reflow -log=debug run -trace' in captured
