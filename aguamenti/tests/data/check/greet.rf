@@ -4,9 +4,12 @@ param (
 
     // The greeting itself
     greeting string
+
+    // Optional parameter
+    punctuation = "!"
 )
 
 
 val Main = exec(image := "ubuntu", mem := GiB) (out file) {"
-	echo {{greeting}} {{whom}} >>{{out}}
+	echo {{greeting}} {{whom}} {{punctuation}} >>{{out}}
 "}

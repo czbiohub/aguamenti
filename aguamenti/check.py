@@ -41,6 +41,17 @@ def get_parameter_order(reflow_program):
     return parameter_order
 
 
+def maybe_get_parameters(parameter_order, arguments):
+    ordered_parameters = []
+    for param in parameter_order:
+        try:
+            ordered_parameters.append((f"-{param}", arguments[param]))
+        except KeyError:
+            # Parameter is described but not used
+            continue
+    return list(chain(*ordered_parameters))
+
+
 @click.command(short_help="Submit the first line of a reflow runbatch "
                           "samples.csv to check for errors")
 @click.option("--path", default='.',
@@ -65,10 +76,7 @@ def check_batch(path, debug):
     for key, value in first_row.items():
         arguments[key] = str(value)
 
-    arguments_ordered = list(chain(*[
-        # Add '-' before parameter name to show it's a flag
-        (f"-{param}", arguments[param]) for param in parameter_order
-    ]))
+    arguments_ordered = maybe_get_parameters(parameter_order, arguments)
 
     if debug:
         base_command = ["reflow", "-log=debug", "-cache=off", "run", "-trace",
