@@ -27,7 +27,7 @@ def test_get_parameter_order(check_folder, reflow_program):
     program_full_path = os.path.join(check_folder, reflow_program)
 
     test = get_parameter_order(program_full_path)
-    true = ['whom', 'greeting']
+    true = ['whom', 'greeting', 'punctuation']
     assert test == true
 
 
