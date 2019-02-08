@@ -51,8 +51,6 @@ def align(experiment_id, taxon, s3_output_path, s3_input_path=S3_INPUT_PATH,
         Only "mus" (mouse) is valid now, more will be added later
     s3_output_path : str
         Where to output the aligned files to
-    s3_input_path : str
-
     """
     output = sanitize_path(output)
     reflow_workflows_path = sanitize_path(reflow_workflows_path)
