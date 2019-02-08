@@ -8,6 +8,8 @@ with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     import pandas as pd
 
+from tqdm import tqdm
+
 
 S3_REFERENCE = {"east": "czbiohub-reference-east",
                 "west": "czbiohub-reference"}
@@ -15,16 +17,16 @@ SAMPLE_REGEX = r'(?P<id>[^/]+)_(?P<read_number>R\d)_\d+.fastq.gz$'
 S3_INPUT_PATH = "s3://czb-seqbot/fastqs"
 
 
-def get_fastqs_as_r1_r2_columns(subfolder="", s3_input_path=S3_INPUT_PATH):
+def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
     """Create a dataframe with a sample per row, and R1 and R2 fastqs in cols
 
     Parameters
     ----------
-    subfolder : str
-        Subfolder of s3_input_path, e.g. an experiment ID from an Illumina
-        sequencing run
+    experiment_id : str
+        Experiment id from Illumina sequencing run, as a folder in
+        s3_input_path
     s3_input_path : str
-        Prefix of the S3 folder/bucket, including "s3://"
+
 
     Returns
     -------
@@ -34,16 +36,26 @@ def get_fastqs_as_r1_r2_columns(subfolder="", s3_input_path=S3_INPUT_PATH):
         'read1' and 'read2'.
 
     """
+    # Add a final slash if it's not already there to ensure we're searching
+    # subfolders
+    s3_input_path = maybe_add_slash(s3_input_path)
+
     s3_input_bucket, s3_input_prefix = s3u.s3_bucket_and_key(
         s3_input_path)
 
+    path_to_search = os.path.join(s3_input_prefix, experiment_id)
+
+    print(f"Recursively searching s3://{s3_input_bucket}/{path_to_search}" \
+           " for fastq.gz files ...")
+
     data = [
         (filename, size)
-        for filename, size in s3u.get_size(
-            s3_input_bucket, os.path.join(s3_input_prefix, subfolder)
-        )
+        for filename, size in tqdm(s3u.get_size(
+            s3_input_bucket, path_to_search
+        ))
         if filename.endswith("fastq.gz")
     ]
+    print(f"\tDone. Found {len(data)} fastq.gz files")
 
     s3_input_bucket = maybe_add_slash(s3_input_bucket)
 
