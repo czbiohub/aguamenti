@@ -1,14 +1,14 @@
+from .os_utils import os, maybe_add_slash
+
+
 import warnings
 
+from tqdm import tqdm
 from utilities import s3_util as s3u
-
-from .os_utils import os, maybe_add_slash
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     import pandas as pd
-
-from tqdm import tqdm
 
 
 S3_REFERENCE = {"east": "czbiohub-reference-east",
@@ -27,7 +27,6 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
         s3_input_path
     s3_input_path : str
 
-
     Returns
     -------
     samples : pandas.DataFrame
@@ -45,8 +44,8 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
 
     path_to_search = os.path.join(s3_input_prefix, experiment_id)
 
-    print(f"Recursively searching s3://{s3_input_bucket}/{path_to_search}" \
-           " for fastq.gz files ...")
+    print(f"Recursively searching s3://{s3_input_bucket}/{path_to_search}"
+          " for fastq.gz files ...")
 
     data = [
         (filename, size)
