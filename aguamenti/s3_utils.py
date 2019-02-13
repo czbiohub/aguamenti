@@ -15,16 +15,16 @@ SAMPLE_REGEX = r'(?P<id>[^/]+)_(?P<read_number>R\d)_\d+.fastq.gz$'
 S3_INPUT_PATH = "s3://czb-seqbot/fastqs"
 
 
-def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
+def get_fastqs_as_r1_r2_columns(subfolder="", s3_input_path=S3_INPUT_PATH):
     """Create a dataframe with a sample per row, and R1 and R2 fastqs in cols
 
     Parameters
     ----------
-    experiment_id : str
-        Experiment id from Illumina sequencing run, as a folder in
-        s3_input_path
+    subfolder : str
+        Subfolder of s3_input_path, e.g. an experiment ID from an Illumina
+        sequencing run
     s3_input_path : str
-
+        Prefix of the S3 folder/bucket, including "s3://"
 
     Returns
     -------
@@ -40,7 +40,7 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
     data = [
         (filename, size)
         for filename, size in s3u.get_size(
-            s3_input_bucket, os.path.join(s3_input_prefix, experiment_id)
+            s3_input_bucket, os.path.join(s3_input_prefix, subfolder)
         )
         if filename.endswith("fastq.gz")
     ]

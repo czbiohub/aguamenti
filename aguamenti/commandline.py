@@ -8,6 +8,7 @@ import click
 from aguamenti.rnaseq import align
 from aguamenti.status import listbatches
 from aguamenti.check import check_batch
+from aguamenti.kmer import similarity
 
 settings = dict(help_option_names=['-h', '--help'])
 
@@ -25,6 +26,7 @@ cli.add_command(align, name='rnaseq-align')
 cli.add_command(check_batch, name="check-batch")
 cli.add_command(listbatches, name="status")
 cli.add_command(check_batch, name="check-batch")
+cli.add_command(similarity, name='kmer')
 
 if __name__ == "__main__":
     cli()
