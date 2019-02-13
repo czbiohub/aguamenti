@@ -1,8 +1,10 @@
+from .os_utils import os, maybe_add_slash
+
+
 import warnings
 
+from tqdm import tqdm
 from utilities import s3_util as s3u
-
-from .os_utils import os, maybe_add_slash
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
@@ -25,7 +27,6 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
         s3_input_path
     s3_input_path : str
 
-
     Returns
     -------
     samples : pandas.DataFrame
@@ -34,16 +35,26 @@ def get_fastqs_as_r1_r2_columns(experiment_id, s3_input_path=S3_INPUT_PATH):
         'read1' and 'read2'.
 
     """
+    # Add a final slash if it's not already there to ensure we're searching
+    # subfolders
+    s3_input_path = maybe_add_slash(s3_input_path)
+
     s3_input_bucket, s3_input_prefix = s3u.s3_bucket_and_key(
         s3_input_path)
 
+    path_to_search = os.path.join(s3_input_prefix, experiment_id)
+
+    print(f"Recursively searching s3://{s3_input_bucket}/{path_to_search}"
+          " for fastq.gz files ...")
+
     data = [
         (filename, size)
-        for filename, size in s3u.get_size(
-            s3_input_bucket, os.path.join(s3_input_prefix, experiment_id)
-        )
+        for filename, size in tqdm(s3u.get_size(
+            s3_input_bucket, path_to_search
+        ))
         if filename.endswith("fastq.gz")
     ]
+    print(f"\tDone. Found {len(data)} fastq.gz files")
 
     s3_input_bucket = maybe_add_slash(s3_input_bucket)
 
