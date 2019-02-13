@@ -14,8 +14,9 @@ LOG2_SKETCH_SIZE = 10
 @click.command(short_help="Calculate kmer distance of all samples in a "
                           "directory. Combines R1 and R2 reads")
 @click.argument("s3_input_path")
-@click.argument("ksize")
 @click.argument('s3_output_path')
+@click.option("--ksizes", "-k", default="15,21,27,33,51",
+              "Kmer sizes to compare")
 @click.option("--log2-sketch-size", default=LOG2_SKETCH_SIZE,
               help="Use 2**log2_sketch_size hashes")
 @click.option('--output', default='.',
@@ -29,15 +30,15 @@ LOG2_SKETCH_SIZE = 10
               help="Which workflow to run on these files. "
                    f"Default: {WORKFLOW}")
 def similarity(s3_input_path, ksize, s3_output_path,
-          log2_sketch_size=LOG2_SKETCH_SIZE,
-          output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
-          workflow=WORKFLOW):
+               log2_sketch_size=LOG2_SKETCH_SIZE,
+               output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
+               workflow=WORKFLOW):
     """Create a samples.csv file
 
     \b
     Parameters
     ----------
-    experiment_id : str
+    s3_input_path : str
         A string of the form `YYMMDD_EXP_ID`, a folder in the --s3-input-path
         argument. e.g. "20181030_FS10000331_12_BNT40322-1214"
     taxon : str
