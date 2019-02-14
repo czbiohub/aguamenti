@@ -45,7 +45,7 @@ def get_fastqs_as_r1_r2_columns(subfolder="", s3_input_path=S3_INPUT_PATH):
     s3_input_bucket, s3_input_prefix = s3u.s3_bucket_and_key(
         s3_input_path)
 
-    path_to_search = os.path.join(s3_input_prefix, experiment_id)
+    path_to_search = os.path.join(s3_input_prefix, subfolder)
 
     print(f"Recursively searching s3://{s3_input_bucket}/{path_to_search}"
           " for fastq.gz files ...")
