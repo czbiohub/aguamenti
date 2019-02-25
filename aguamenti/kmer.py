@@ -97,6 +97,13 @@ def similarity(s3_input_path, s3_output_path, name=None,
     # Add all parameters and make full samples
     ksizes = intify(ksizes)
     log2_sketch_sizes = intify(log2_sketch_sizes)
+
+    click.echo(f"Preparing Reflow runbatch to compare {len(fastqs)} samples " \
+                "with ..." \
+                f"\n\tmethod: {method}, " \
+                f"\n\tksizes: {ksizes}, " \
+                f"\n\tlog2_sketch_sizes: {log2_sketch_sizes}" \
+                f"\n\tmolecule: {molecule}")
     parameters = pd.DataFrame(list(product([name], ksizes, log2_sketch_sizes)),
                               columns=['name', 'ksize', 'log2_sketch_size'])
     parameters = parameters.set_index('name')
