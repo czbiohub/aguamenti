@@ -108,9 +108,9 @@ def similarity(s3_input_path, s3_output_path, name=None,
                               columns=['name', 'ksize', 'log2_sketch_size'])
     parameters = parameters.set_index('name')
     samples = samples.join(parameters)
-    samples['id'] = samples.apply(
-        lambda x:
-        x.name + "_ksize-{ksize}_log2sketchsize-{log2_sketch_size}".format(**x),
+    template = "_ksize-{ksize}_log2sketchsize-{log2_sketch_size}"
+
+    samples['id'] = samples.apply(lambda x: x.name + template.format(**x),
         axis=1)
     samples['output'] = samples.apply(
         lambda x: s3_output_path + x['id'] + '.csv', axis=1)
