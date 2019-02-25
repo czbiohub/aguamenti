@@ -24,8 +24,8 @@ def get_parameter_order(reflow_program):
 
     stderr = '\n'.join(stderr)
     if 'syntax error' in stderr:
-        raise ValueError("Syntax errors in Reflow program:\n"
-                         "{stderr}")
+        raise ValueError("Syntax errors in Reflow program:\n\n" \
+                         f"{stderr}")
 
     # Save the parameters from the command
     parameter_order = []
