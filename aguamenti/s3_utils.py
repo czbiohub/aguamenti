@@ -6,8 +6,6 @@ import warnings
 from tqdm import tqdm
 from utilities import s3_util as s3u
 
-from .os_utils import os, maybe_add_slash
-
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     import pandas as pd
