@@ -50,8 +50,8 @@ def intify(s):
 @click.option('--workflow', default=WORKFLOW,
               help="Which workflow to run on these files. "
                    f"Default: {WORKFLOW}")
-@click.option('--method', default="dashing",
-              type=click.Choice(["dashing", "sourmash"]),
+@click.option('--method', default="minhash",
+              type=click.Choice(["minhash", "hyperloglog"]),
               help='Which method to use for estimating a jaccard similarity ' \
                    'of k-mer overlap')
 @click.option('--molecule', default="DNA",
@@ -62,7 +62,7 @@ def similarity(s3_input_path, s3_output_path, name=None,
                ksizes=KSIZES,
                log2_sketch_sizes=LOG2_SKETCH_SIZES,
                output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
-               workflow=WORKFLOW, method='dashing', molecule='DNA'):
+               workflow=WORKFLOW, method='minhash', molecule='DNA'):
     """Create a samples.csv file
 
     \b
