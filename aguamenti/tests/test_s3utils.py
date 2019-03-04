@@ -1,16 +1,10 @@
-
-import json
-import os
-
-from click.testing import CliRunner
 import pytest
-import pandas as pd
-import pandas.testing as pdt
 
 
 @pytest.fixture
 def sra_output_folder():
-    return "s3://olgabot-maca/sra/danio_rerio/smart-seq/whole_kidney_marrow_prjna393431/"
+    return "s3://olgabot-maca/sra/danio_rerio/" \
+           "smart-seq/whole_kidney_marrow_prjna393431/"
 
 
 def test_get_fastqs_as_r1_r2_columns(sra_output_folder):

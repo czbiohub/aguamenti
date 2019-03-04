@@ -17,8 +17,9 @@ SAMPLE_REGEX = r'(?P<id>[^/]+)_(?P<read_number>R\d)_\d+.fastq.gz$'
 SRA_SAMPLE_REGEX = r'(?P<id>[\w]+)_(?P<read_number>[12]).fastq.gz$'
 
 REGEX_TO_READ_ID = {SAMPLE_REGEX: ("R1", "R2"),
-                   SRA_SAMPLE_REGEX: ("1", "2")}
+                    SRA_SAMPLE_REGEX: ("1", "2")}
 S3_INPUT_PATH = "s3://czb-seqbot/fastqs"
+
 
 def _extract_r1_r2(data, s3_input_bucket):
     fastqs = pd.DataFrame(data, columns=['filename', 'size'])
@@ -86,6 +87,5 @@ def get_fastqs_as_r1_r2_columns(subfolder="", s3_input_path=S3_INPUT_PATH):
 
     samples = _extract_r1_r2(data, s3_input_bucket)
     print(f"\tDone. Found {len(samples)} samples' reads (single or paired)")
-
 
     return samples

@@ -5,8 +5,6 @@ import os
 
 from click.testing import CliRunner
 import pytest
-import pandas as pd
-import pandas.testing as pdt
 
 
 @pytest.fixture
@@ -20,11 +18,9 @@ def s3_output():
     return 's3://olgabot-maca/aguamenti-test-kmer/'
 
 
-
 @pytest.fixture
 def ksize():
     return 21
-
 
 
 @pytest.fixture

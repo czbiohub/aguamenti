@@ -15,6 +15,7 @@ WORKFLOW = "kmer_similarity.rf"
 KSIZES = "21,27,33,51"
 LOG2_SKETCH_SIZES = "8,9,10,11,12,13,14,15,16"
 
+
 def intify(s):
     """Given string containing comma-separated integers, return the integers
 
@@ -31,32 +32,32 @@ def intify(s):
 @click.argument('s3_output_path')
 @click.option("--name", "-n",
               default=None,
-              help=f"If provided, prefixes the csvs with this name. If not " \
-                    "provided, uses the last folder in s3_input_path")
+              help=f"If provided, prefixes the csvs with this name. If not "
+                   "provided, uses the last folder in s3_input_path")
 @click.option("--ksizes", "-k",
               default=KSIZES,
               help=f"Which kmer size to compare. Default: '{KSIZES}'")
 @click.option("--log2-sketch-sizes", "-s",
               default=LOG2_SKETCH_SIZES,
-              help=f"Use 2**log2_sketch_size hashes. Default: " \
-                    "'{LOG2_SKETCH_SIZES}'")
+              help=f"Use 2**log2_sketch_size hashes. Default: "
+                   "'{LOG2_SKETCH_SIZES}'")
 @click.option('--output', default='.',
               help='Where to output the samples.csv and config.json files to.'
                    ' Default is the current directory.')
 @click.option('--reflow-workflows-path', default=REFLOW_WORKFLOWS,
-              help='Location of reflow-workflows directory containing .rf ' \
-                   'files where you will run the workflow. ' \
-                    f'Default: {REFLOW_WORKFLOWS}')
+              help='Location of reflow-workflows directory containing .rf '
+                   'files where you will run the workflow. '
+                   f'Default: {REFLOW_WORKFLOWS}')
 @click.option('--workflow', default=WORKFLOW,
               help="Which workflow to run on these files. "
                    f"Default: {WORKFLOW}")
 @click.option('--method', default="minhash",
               type=click.Choice(["minhash", "hyperloglog", "truejaccard"]),
-              help='Which method to use for estimating a jaccard similarity ' \
+              help='Which method to use for estimating a jaccard similarity '
                    'of k-mer overlap')
 @click.option('--molecule', default="dna",
               type=click.Choice(["dna", "protein"]),
-              help='Which molecule to compare on. Default is "dna". Only ' \
+              help='Which molecule to compare on. Default is "dna". Only '
                    'minhash can use "protein"')
 def similarity(s3_input_path, s3_output_path, name=None,
                ksizes=KSIZES,
@@ -98,12 +99,12 @@ def similarity(s3_input_path, s3_output_path, name=None,
     ksizes = intify(ksizes)
     log2_sketch_sizes = intify(log2_sketch_sizes)
 
-    click.echo(f"Preparing Reflow runbatch to compare {len(fastqs)} samples " \
-                "with ..." \
-                f"\n\tmethod: {method}, " \
-                f"\n\tksizes: {ksizes}, " \
-                f"\n\tlog2_sketch_sizes: {log2_sketch_sizes}" \
-                f"\n\tmolecule: {molecule}")
+    click.echo(f"Preparing Reflow runbatch to compare {len(fastqs)} samples "
+               "with ..."
+               f"\n\tmethod: {method}, "
+               f"\n\tksizes: {ksizes}, "
+               f"\n\tlog2_sketch_sizes: {log2_sketch_sizes}"
+               f"\n\tmolecule: {molecule}")
     parameters = pd.DataFrame(list(product([name], ksizes, log2_sketch_sizes)),
                               columns=['name', 'ksize', 'log2_sketch_size'])
     parameters = parameters.set_index('name')
@@ -111,7 +112,7 @@ def similarity(s3_input_path, s3_output_path, name=None,
     template = "_ksize-{ksize}_log2sketchsize-{log2_sketch_size}"
 
     samples['id'] = samples.apply(lambda x: x.name + template.format(**x),
-        axis=1)
+                                  axis=1)
     samples['output'] = samples.apply(
         lambda x: s3_output_path + x['id'] + '.csv', axis=1)
     samples = samples.set_index('id')
