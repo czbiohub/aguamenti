@@ -26,6 +26,8 @@ def _extract_r1_r2(data, s3_input_bucket):
     fastqs['full_path'] = 's3://' + s3_input_bucket + fastqs['filename']
     fastqs['basename'] = fastqs.filename.map(os.path.basename)
 
+    dfs = []
+
     for REGEX, (read1, read2) in REGEX_TO_READ_ID.items():
         read_data = fastqs.basename.str.extractall(REGEX)
 
@@ -36,9 +38,13 @@ def _extract_r1_r2(data, s3_input_bucket):
         fastqs_with_data = pd.concat([fastqs, read_data], axis=1)
         # Transform so R1 and R2 are column names, and the values are the paths
         # Each row is a single sample
-        samples = fastqs_with_data.pivot(index='id', columns='read_number',
+        df = fastqs_with_data.pivot(index='id', columns='read_number',
                                          values='full_path')
-        samples = samples.rename(columns={read1: 'read1', read2: "read2"})
+        df = df.rename(columns={read1: 'read1', read2: "read2"})
+        dfs.append(df)
+
+    # Concatenate all samples together
+    samples = pd.concat(dfs)
 
     return samples
 
