@@ -13,6 +13,13 @@ def s3_input_path():
     return os.path.join(S3_INPUT_PATH, '20181030_FS10000331_12_BNT40322-1214')
 
 
+
+@pytest.fixture
+def s3_input_paths(s3_input_path):
+    return f"{s3_input_path},s3://olgabot-maca/sra/danio_rerio/smart-seq/" \
+            "whole_kidney_marrow_prjna393431/"
+
+
 @pytest.fixture
 def s3_output():
     return 's3://olgabot-maca/aguamenti-test-kmer/'
@@ -40,14 +47,14 @@ def true_config(kmer_folder):
     return true_config
 
 
-def test_kmer(kmer_folder, s3_input_path, ksize, s3_output):
+def test_kmer(kmer_folder, s3_input_path, s3_output):
     from aguamenti.kmer import similarity
 
     # csv = os.path.join(kmer_folder, 'samples.csv')
     # true_samples = pd.read_csv(csv)
 
     runner = CliRunner()
-    result = runner.invoke(similarity, [s3_input_path, ksize, s3_output])
+    result = runner.invoke(similarity, [s3_input_path, s3_output])
 
     # exit code of '0' means success!
     assert result.exit_code == 0
@@ -65,3 +72,18 @@ def test_kmer(kmer_folder, s3_input_path, ksize, s3_output):
     # with open('config.json') as f:
     #     test_config = json.load(f)
     # assert test_config == true_config
+
+
+def test_kmer_multiple_inputs(kmer_folder, s3_input_paths, s3_output):
+    from aguamenti.kmer import similarity
+
+    # csv = os.path.join(kmer_folder, 'samples.csv')
+    # true_samples = pd.read_csv(csv)
+
+    runner = CliRunner()
+    result = runner.invoke(similarity, [s3_input_paths, s3_output])
+
+    # exit code of '0' means success!
+    assert result.exit_code == 0
+    assert 'samples.csv' in result.output
+    assert 'config.json' in result.output
