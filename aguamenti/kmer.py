@@ -54,8 +54,8 @@ def intify(s):
               type=click.Choice(["minhash", "hyperloglog"]),
               help='Which method to use for estimating a jaccard similarity ' \
                    'of k-mer overlap')
-@click.option('--molecule', default="DNA",
-              type=click.Choice(["DNA", "protein"]),
+@click.option('--molecule', default="dna",
+              type=click.Choice(["dna", "protein"]),
               help='Which molecule to compare on. Default is "DNA". Only ' \
                    'sourmash can use "protein"')
 def similarity(s3_input_path, s3_output_path, name=None,
