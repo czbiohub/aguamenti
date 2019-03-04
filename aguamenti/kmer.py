@@ -22,7 +22,7 @@ def intify(s):
     >>> intify("1,2,3")
     [1, 2, 3]
     """
-    return [int(x.strip()) for x in s.split(",")]
+    return sorted(list(set([int(x.strip()) for x in s.split(",")])))
 
 
 @click.command(short_help="Calculate kmer distance of all samples in a "
