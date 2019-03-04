@@ -51,13 +51,13 @@ def intify(s):
               help="Which workflow to run on these files. "
                    f"Default: {WORKFLOW}")
 @click.option('--method', default="minhash",
-              type=click.Choice(["minhash", "hyperloglog"]),
+              type=click.Choice(["minhash", "hyperloglog", "truejaccard"]),
               help='Which method to use for estimating a jaccard similarity ' \
                    'of k-mer overlap')
 @click.option('--molecule', default="dna",
               type=click.Choice(["dna", "protein"]),
-              help='Which molecule to compare on. Default is "DNA". Only ' \
-                   'sourmash can use "protein"')
+              help='Which molecule to compare on. Default is "dna". Only ' \
+                   'minhash can use "protein"')
 def similarity(s3_input_path, s3_output_path, name=None,
                ksizes=KSIZES,
                log2_sketch_sizes=LOG2_SKETCH_SIZES,
