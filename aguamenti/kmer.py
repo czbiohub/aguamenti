@@ -25,13 +25,27 @@ def intify(s):
     return sorted(list(set([int(x.strip()) for x in s.split(",")])))
 
 
+def get_reads_per_comparison(s3_input_paths, name):
+    dfs = []
+    for s3_input_path in s3_input_paths.split(","):
+        df = get_fastqs_as_r1_r2_columns(s3_input_path=s3_input_path)
+        dfs.append(df)
+    fastqs = pd.concat(dfs)
+    # Glue together read1 and read2 into single line
+    read1s = ';'.join(fastqs['read1'])
+    read2s = ';'.join(fastqs['read2'])
+    sample_names = ";".join(fastqs.index)
+    samples = pd.DataFrame(dict(read1s=read1s, read2s=read2s,
+                                names=sample_names), index=[name])
+    return samples
+
 @click.command(short_help="Calculate kmer distance of all samples in a "
                           "directory. Combines R1 and R2 reads into one "
                           "sample")
-@click.argument("s3_input_path")
+@click.argument("s3_input_paths")
 @click.argument('s3_output_path')
 @click.option("--name", "-n",
-              default=None,
+              default="kmer_similarity",
               help=f"If provided, prefixes the csvs with this name. If not "
                    "provided, uses the last folder in s3_input_path")
 @click.option("--ksizes", "-k",
@@ -59,7 +73,7 @@ def intify(s):
               type=click.Choice(["dna", "protein"]),
               help='Which molecule to compare on. Default is "dna". Only '
                    'minhash can use "protein"')
-def similarity(s3_input_path, s3_output_path, name=None,
+def similarity(s3_input_paths, s3_output_path, name=None,
                ksizes=KSIZES,
                log2_sketch_sizes=LOG2_SKETCH_SIZES,
                output='.', reflow_workflows_path=REFLOW_WORKFLOWS,
@@ -70,14 +84,14 @@ def similarity(s3_input_path, s3_output_path, name=None,
     Parameters
     ----------
     s3_input_path : str
-        Full path to a s3 folder containing fastq files
+        Full path to a s3 folder containing fastq files. Multiple paths can be
+        specified as a comma-separated list, e.g.:
+        s3://bucket1/path1,s3://bucket2/path2
     s3_output_path : str
         Where to output the csvs of comparison to
 
     """
     s3_output_path = maybe_add_slash(s3_output_path)
-    if name is None:
-        name = os.path.basename(os.path.dirname(s3_input_path))
 
     output = sanitize_path(output)
     reflow_workflows_path = sanitize_path(reflow_workflows_path)
@@ -86,20 +100,13 @@ def similarity(s3_input_path, s3_output_path, name=None,
     os.makedirs(output, exist_ok=True)
 
     # Get dataframe with 1 sample per row, read1 and read2 as columns
-    fastqs = get_fastqs_as_r1_r2_columns(s3_input_path=s3_input_path)
-
-    # Glue together read1 and read2 into single line
-    read1s = ';'.join(fastqs['read1'])
-    read2s = ';'.join(fastqs['read2'])
-    sample_names = ";".join(fastqs.index)
-    samples = pd.DataFrame(dict(read1s=read1s, read2s=read2s,
-                                names=sample_names), index=[name])
+    samples = get_reads_per_comparison(s3_input_paths, name)
 
     # Add all parameters and make full samples
     ksizes = intify(ksizes)
     log2_sketch_sizes = intify(log2_sketch_sizes)
 
-    click.echo(f"Preparing Reflow runbatch to compare {len(fastqs)} samples "
+    click.echo(f"Preparing Reflow runbatch to compare {len(samples)} samples "
                "with ..."
                f"\n\tmethod: {method}, "
                f"\n\tksizes: {ksizes}, "
