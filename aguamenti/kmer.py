@@ -31,12 +31,15 @@ def get_reads_per_comparison(s3_input_paths, name):
         df = get_fastqs_as_r1_r2_columns(s3_input_path=s3_input_path)
         dfs.append(df)
     fastqs = pd.concat(dfs)
+
+    print(f"Combining all {len(fastqs)} samples for comparison ...")
     # Glue together read1 and read2 into single line
     read1s = ';'.join(fastqs['read1'])
     read2s = ';'.join(fastqs['read2'])
     sample_names = ";".join(fastqs.index)
     samples = pd.DataFrame(dict(read1s=read1s, read2s=read2s,
                                 names=sample_names), index=[name])
+    print("\tDone.")
     return samples
 
 @click.command(short_help="Calculate kmer distance of all samples in a "
