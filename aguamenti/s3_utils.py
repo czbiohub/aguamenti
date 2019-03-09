@@ -36,6 +36,10 @@ def _extract_r1_r2(data, s3_input_bucket):
             continue
         read_data.index = read_data.index.droplevel(-1)
         fastqs_with_data = pd.concat([fastqs, read_data], axis=1)
+
+        # Remove all fastqs without a read number
+        fastqs_with_data = fastqs_with_data.dropna()
+
         # Transform so R1 and R2 are column names, and the values are the paths
         # Each row is a single sample
         df = fastqs_with_data.pivot(index='id', columns='read_number',
