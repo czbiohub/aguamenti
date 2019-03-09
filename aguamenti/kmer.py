@@ -69,7 +69,7 @@ def get_reads_per_comparison(s3_input_paths, name):
               help="Which workflow to run on these files. "
                    f"Default: {WORKFLOW}")
 @click.option('--method', default="minhash",
-              type=click.Choice(["minhash", "hyperloglog", "truejaccard"]),
+              type=click.Choice(["minhash", "hyperloglog", "exactjaccard"]),
               help='Which method to use for estimating a jaccard similarity '
                    'of k-mer overlap')
 @click.option('--molecule', default="dna",
