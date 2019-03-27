@@ -3,6 +3,7 @@ from .os_utils import os, maybe_add_slash
 
 import warnings
 
+import s3fs
 from tqdm import tqdm
 from utilities import s3_util as s3u
 
@@ -99,3 +100,21 @@ def get_fastqs_as_r1_r2_columns(subfolder="", s3_input_path=S3_INPUT_PATH):
     print(f"\tDone. Found {len(samples)} samples' reads (single or paired)")
 
     return samples
+
+
+def write_s3(df, filename, fmt='csv', **kwargs):
+    fs = s3fs.S3FileSystem(anon=False)
+    if fmt == 'csv':
+        # csv is a text format
+        with fs.open(filename, 'w') as f:
+            return df.to_csv(f, **kwargs)
+    elif fmt == 'parquet':
+        # Parquet is a binary format and needs the "b" flag
+        with fs.open(filename, 'wb') as f:
+            return df.to_parquet(f, **kwargs)
+
+
+def read_aws_s3_ls(filename, **kwargs):
+    return pd.read_csv(filename, delim_whitespace=True, header=None,
+                       sep='\t',
+                       names=['date', 'time', 'bytes', 'basename'], **kwargs)
